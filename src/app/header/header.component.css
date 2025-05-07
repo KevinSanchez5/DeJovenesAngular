@@ -1,0 +1,29 @@
+/* Estilo de la barra de navegación */
+.navbar {
+    background: #2f3b3b; /* Gris oscuro para el fondo */
+  }
+  
+  .navbar-brand {
+    font-weight: bold;
+    font-size: 1.5rem;
+    color: #fff !important; /* Blanco para el texto de la marca */
+  }
+  
+  .navbar-nav .nav-link {
+    color: #f4f4f4 !important; /* Un blanco suave para los enlaces */
+  }
+  
+  .navbar-nav .nav-link.active {
+    font-weight: bold;
+    color: #ffc107 !important; /* Un tono dorado para el enlace activo */
+  }
+  
+  .navbar-nav .nav-link:hover {
+    color: #ffd700 !important; /* Amarillo suave para los enlaces al pasar el ratón */
+  }
+  
+  /* Para que la barra de navegación tenga un borde suave */
+  .navbar-expand-lg {
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+  }
+  

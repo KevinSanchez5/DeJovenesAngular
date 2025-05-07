@@ -1,0 +1,169 @@
+
+
+#bodyFormulario {
+    background: linear-gradient(to right, #166d1698, #f1f8e9); 
+    font-family: 'Georgia', serif;
+    color: #2c3e50;
+    height: 100%; 
+    padding-top: 2em;
+    display: flex;
+    justify-content: center;
+    align-items: center; 
+}
+
+/* Ajuste para el contenedor principal */
+#principal {
+    width: 80%;
+    padding: 20px;
+    background-color: #e6f4ea; 
+    border-radius: 15px;
+    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.2);
+
+}
+
+h1 {
+    text-align: center;
+    color: #2a5d34;
+    font-size: 2em;
+}
+
+h3 {
+    text-align: center;
+    color: #4a7c59;
+}
+
+label {
+    font-size: 1.1em;
+    color: #2c3e50;
+    margin-top: 1em;
+    display: block;
+}
+
+input, select {
+    width: calc(100% - 20px);
+    padding: 12px;
+    font-size: 16px;
+    border: 1px solid #b0c4a7;
+    border-radius: 8px;
+    background-color: #f9fef9;
+    transition: all 0.3s ease-in-out;
+}
+
+input:focus, select:focus {
+    border-color: #4a7c59;
+    box-shadow: 0 0 8px rgba(74, 124, 89, 0.5);
+}
+#provincia {
+    width: calc(100% - 20px);
+    padding: 12px;
+    font-size: 16px;
+    color: black;
+    border: 1px solid #91958f;
+    border-radius: 8px;
+    background-color: #bcb9b9;
+}
+
+button {
+    width: 48%;
+    padding: 12px;
+    font-size: 16px;
+    border: none;
+    border-radius: 8px;
+    cursor: pointer;
+    transition: background 0.3s ease-in-out;
+}
+
+button[type="submit"] {
+    background-color: #2a5d34;
+    color: white;
+}
+
+button[type="submit"]:hover {
+    background-color: #1f4b27;
+}
+
+button[type="submit"]:disabled {
+    background-color: #898e14; 
+    color: #ffffffaa;
+    cursor: not-allowed;
+    opacity: 0.7;
+}
+
+button[type="button"] {
+    background-color: #8b5e3b;
+    color: white;
+}
+
+button[type="button"]:hover {
+    background-color: #6a4028;
+}
+
+.spanCorrecto {
+    display: none;
+}
+
+.spanError {
+    display: block;
+    color: red;
+    font-size: 0.9em;
+}
+
+.inputError {
+    background-color: #fddede;
+    border-color: #d9534f;
+    color: #a94442;
+}
+
+.inputCorrecto {
+    background-color: #d4edda;
+    border-color: #28a745;
+    color: #155724;
+}
+.radio-group {
+    display: flex;
+    align-items: center; 
+    gap: 15px; 
+}
+
+.radio-group label {
+    display: flex;
+    align-items: center;
+    gap: 4px; 
+    font-size: 1em;
+    color: #2c3e50;
+}
+
+.radio-group input[type="radio"] {
+    margin: 0;
+    transform: scale(1.2); 
+}
+
+.condiciones-container {
+    display: flex;
+    align-items: center; 
+    gap: 8px; 
+    margin-bottom: 5px;
+}
+
+.condiciones-container input[type="checkbox"] {
+    width: 15px; 
+    height: 15px;
+    cursor: pointer; 
+}
+
+.condiciones-container label {
+    font-size: 16px;
+    cursor: pointer; 
+}
+
+
+.botonPanaderia {
+    margin-top: 20px;
+    padding: 10px 20px;
+    background-color: #e7c089;
+    border: none;
+    border-radius: 8px;
+    cursor: pointer;
+    font-weight: bold;
+    
+}

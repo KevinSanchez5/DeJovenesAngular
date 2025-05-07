@@ -1,0 +1,153 @@
+<div id="bodyFormulario">
+    <div id="principal">
+
+        <h1>DeJovenes Leganés</h1>
+        <h3>Únete al club</h3>
+        <p>Rellena los siguientes campos para completar el registro:</p>
+
+
+        <form [formGroup] ="formularioDeJovenes" (ngSubmit)="mostrarDatos()">
+            <div id="formulario">
+                <label for="nombre">Nombre:</label>
+                <input type="text" id="nombre" formControlName="nombre" required>
+                @if (this.formularioDeJovenes.get('nombre')?.hasError('required') && this.formularioDeJovenes.get('nombre')?.touched) {
+                <span class="spanError">El nombre no puede estar vacío</span>
+                }
+                @if (formularioDeJovenes.get('nombre')?.hasError('minlength')) {
+                <span class="spanError">El nombre es demasiado corto (mínimo 2 caracteres)</span>
+                }
+                @if (formularioDeJovenes.get('nombre')?.hasError('maxlength') && formularioDeJovenes.get('nombre')?.dirty) {
+                <span class="spanError">El nombre es demasiado largo (máximo 60 caracteres)</span>
+                }
+
+                <label for="apellido">Apellidos:</label>
+                <input type="text" id="apellido" formControlName="apellido" required>
+                @if (this.formularioDeJovenes.get('apellido')?.hasError('required') && this.formularioDeJovenes.get('apellido')?.touched ) {
+                    <span class="spanError">El nombre no puede quedar vacío</span>
+                }
+                @if (this.formularioDeJovenes.get('apellido')?.hasError('minlength')) {
+                    <span class="spanError">El apellido es demasiado corto (mínimo 2 caracteres)</span>
+                }
+                @if (this.formularioDeJovenes.get('apellido')?.hasError('maxlength')) {
+                    <span class="spanError">El apellido es demsiado largo (máximo 80 caracteres)</span>
+                }
+
+
+                <label for="dni">DNI:</label>
+                <input type="text" formControlName="dni" id="dni" required>
+                @if (formularioDeJovenes.get('dni')?.hasError('required') && formularioDeJovenes.get('dni')?.touched) {
+                    <span class="spanError">El campo dni no puede quedar vacío</span>
+                }
+                @if (formularioDeJovenes.get('dni')?.hasError('dniInvalido')&& formularioDeJovenes.get('dni')?.dirty) {
+                    <span class="spanError">Debe ingresar un dni correcto</span>
+                }
+                @if (formularioDeJovenes.get('dni')?.hasError('letraIncorrecta')) {
+                    <span class="spanError">La letra no coincide con los numero ingresados</span>
+                }
+                
+                
+
+                <label for="email">Email:</label>
+                <input type="email" id="email" formControlName="email" required >
+                @if (formularioDeJovenes.get('email')?.hasError('required') && formularioDeJovenes.get('email')?.touched) {
+                    <span class="spanError">El email no puede quedar vacío</span>
+                }
+                @if (formularioDeJovenes.get('email')?.hasError('email')) {
+                    <span class="spanError">El email debe tener un formato correcto</span>
+                }
+
+                <label for="telefono">Teléfono:</label>
+                <input type="tel" id="telefono" formControlName="telefono" required>
+                @if (formularioDeJovenes.get('telefono')?.hasError('required') && formularioDeJovenes.get('telefono')?.touched) {
+                    <span class="spanError">El número de teléfono no puede quedar vacío</span>
+                }
+                @if (formularioDeJovenes.get('telefono')?.hasError('pattern')) {
+                    <span class="spanError">El teléfono debe empezar por 6, 7 o 9 y tener 9 dígitos en total</span>
+                }
+
+                <label for="fecha">Fecha de nacimiento:</label>
+                <input type="text" id="fecha" formControlName="fecha" required>
+                @if (formularioDeJovenes.get('fecha')?.hasError('required') && formularioDeJovenes.get('fecha')?.touched) {
+                    <span class="spanError">La fecha de nacimiento no puede quedar vacía</span>
+                }
+                @if (formularioDeJovenes.get('fecha')?.hasError('fechaInvalida')&& formularioDeJovenes.get('fecha')?.dirty) {
+                    <span class="spanError">La fecha debe tener un formato de dd/mm/aaaa y válida.</span>
+                }
+                @if (formularioDeJovenes.get('fecha')?.hasError('fechaFutura')) {
+                    <span class="spanError">La fecha no puede ser posterior a hoy</span>
+                }
+
+                
+                <label for="sexo">Sexo:</label>
+                    <div id="grupoRadio" class="radio-group">
+                        <label for="hombre">
+                        <input type="radio" id="hombre" formControlName="sexo" value="Hombre" >
+                        Hombre
+                        </label>
+                        <label for="mujer">
+                        <input type="radio" id="mujer" formControlName="sexo" value="Mujer" >Mujer
+                        </label> 
+                    </div> <br>
+                    @if (formularioDeJovenes.get('sexo')?.touched && formularioDeJovenes.get('sexo')?.hasError('required')) {
+                        <span id="spansexo" class="spanError">Debes seleccionar un sexo</span>
+                    }
+            
+                <label for="fichero">Subir DNI</label>
+                <input type="file" id="fichero" formControlName="fichero" accept=".jpg,.png,.jpeg" required (change)="onFileChange($event)">
+                @if (formularioDeJovenes.get('fichero')?.touched && formularioDeJovenes.get('fichero')?.hasError('required')) {
+                <span id="spanfichero" class="spanError">Debes subir una imagen de tu DNI con extensión.jpg,.png,.jpeg</span>
+                }
+
+                <label for="intereses">Intereses:</label>
+                <select formControlName="intereses" id="intereses" size="5" multiple>
+                    <option name="inter" value="arte">Arte</option>
+                    <option name="inter" value="música">Música</option>
+                    <option name="inter" value="deporte">Deporte</option>
+                    <option name="inter" value="cocina">Cocina</option>
+                    <option name="inter" value="series">Series</option>   
+                </select>
+                @if (formularioDeJovenes.get('intereses')?.touched && formularioDeJovenes.get('intereses')?.hasError('required')) {
+                    <span id="spanintereses" class="spanError">Debes seleccionar al menos un interés</span>
+                }
+
+
+                <label for="codigoP">Código Postal</label>
+                <input type="text" size="5" id="codigoP" formControlName="codigoP" required>
+                @if (formularioDeJovenes.get('codigoP')?.hasError('required') && formularioDeJovenes.get('codigoP')?.touched) {
+                    <span class="spanError">Debe ingresar el código postal</span>
+                }
+                @if (formularioDeJovenes.get('codigoP')?.hasError('codigoPostalInvalido') && formularioDeJovenes.get('codigoP')?.dirty) {
+                    <span class="spanError">El código postal es incorrecto, tiene que tener 5 digitos y ser válido</span>
+                }
+                
+
+                <label for="provincia">Provincia</label>
+                <input type="text" formControlName="provincia" id="provincia">
+
+                <label for="situacion">Situacion actual:</label>
+                <select formControlName="situacion" id="situacion">
+                    <option value="" selected> </option>            
+                    <option value="Empleado">Empleado</option>
+                    <option value="Estudiante">Estudiante</option>
+                    <option value="Desempleado">Desempleado</option>
+                </select>
+                @if (formularioDeJovenes.get('situacion')?.touched && formularioDeJovenes.get('situacion')?.hasError('required')){
+                    <span id="spansituacion" class="spanError">Debes seleccionar una situación</span>
+                }
+                <div class="condiciones-container">
+                    <input type="checkbox" formControlName="condiciones" id="condiciones">
+                    <label for="condiciones">Aceptar condiciones</label>
+                </div>
+
+                <button type="submit" [disabled]="!formularioDeJovenes.get('condiciones')?.value">Enviar</button>
+                <button type="button" (click)="resetearFormulario()">Borrar</button>
+            
+            </div>
+        </form>
+
+        <br>
+        <button routerLink="/panaderia" class="botonPanaderia">
+            Ir a Panadería
+        </button>
+    </div>
+</div>
