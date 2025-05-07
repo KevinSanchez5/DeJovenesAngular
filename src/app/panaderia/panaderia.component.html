@@ -1,0 +1,101 @@
+<div id="bodyPanaderia">
+<div id="todo" class="container-fluid">
+    <!-- Tñitulo -->
+    <header class="page-header">
+        <div id="cabeza" class="p-5 mb-4 bg-black bg-opacity-25 rounded-3 d-flex align-items-center justify-content-between">
+            <img src="media/Tahona_logo.png" id="logo" alt="Logo de La Tahona">
+            <h1 class="display-5 fw-bold">La Tahona</h1>
+        </div>
+    </header>
+
+    <!-- Formulario de tabla -->
+    <div class="form rounded-3" id="cajaInputs">
+        <form action="">
+            <div id="inputs" class="d-flex align-items-end flex-wrap justify-content-between">
+                <div class="input-group-custom">
+                    <label for="tiposPanes" class="form-label">Producto</label>
+                    <select class="form-select" id="tiposPanes" (change)="recibirPrecioPan($event)">
+                        @for (pan of panes; track $index) {
+                         <option [value]="pan.nombre" > {{ pan.nombre }}</option>
+                        }
+                    </select>
+                </div>
+
+                <div class="input-group-custom">
+                    <label for="precio" class="form-label">Precio</label>
+                    <input type="text" class="form-control" disabled id="precio" [value]="precioSeleccionado || '' ">
+                </div>
+
+                <div class="input-group-custom">
+                    <label for="cantidad" class="form-label">Cantidad</label>
+                    <input type="number" class="form-control" id="cantidad" min="0">
+                </div>
+
+                <div class="input-group-custom">
+                    <button id="añadir" type="button" class="btn btn-outline-dark shadow-lg bg-opacity-25" onclick="mostrarTabla(); agregarPedido(); calcularCompraTotal()">Añadir</button>
+                </div>
+            </div>
+        </form>
+
+        <!--Tabla con productos-->
+        <div class="text-center mx-auto table-responsive" id="tablaC">
+            <table class="table table-striped mt-5" id="tablaPedidos" >
+                <thead>
+                    <tr>
+                        <td>Producto</td>
+                        <td>Precio</td>
+                        <td>Cantidad</td>
+                        <td>Precio Total</td>
+                        <td></td>
+                    </tr>
+                </thead>
+                <tbody></tbody>
+            </table>
+        </div>
+
+        <!--Precio total de compra y boton de ver factura-->
+        <div class="row justify-content-end mt-4">
+            <div class="col-auto">
+                <label for="totalCompra" class="form-label fw-bold">Total de la compra:</label>
+                <input type="text" id="totalCompra" class="form-control fw-bold text-end" value="0.00 €" disabled>
+            </div>
+        </div>
+        <button class="btn btn-success mt-3" onclick="verFactura()" data-bs-toggle="modal" data-bs-target="#modalFactura">
+            Ver factura
+        </button>
+    </div>
+
+    <!-- Modal con factura -->
+    <div class="modal fade" id="modalFactura" tabindex="-1" aria-labelledby="modalFacturaLabel" aria-hidden="true">
+        <div class="modal-dialog modal-lg modal-dialog-scrollable">
+        <div class="modal-content">
+            <div class="modal-header">
+            <h5 class="modal-title" id="modalFacturaLabel">Factura de la compra</h5>
+            <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Cerrar"></button>
+            </div>
+            <div class="modal-body">
+            <table class="table table-bordered">
+                <thead>
+                <tr>
+                    <th>Producto</th>
+                    <th>Precio Unidad</th>
+                    <th>Cantidad</th>
+                    <th>Precio Total</th>
+                </tr>
+                </thead>
+                <tbody id="tablaFacturaBody"></tbody>
+            </table>
+            <div class="text-end mt-3">
+                <label for="totalFactura" class="form-label fw-bold">Total de la compra:</label>
+                <input type="text" id="totalFactura" class="form-control text-end fw-bold" disabled>
+            </div>
+            </div>
+            <div class="modal-footer">
+            <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cerrar</button>
+            </div>
+        </div>
+        </div>
+    </div>
+
+</div> 
+</div>
