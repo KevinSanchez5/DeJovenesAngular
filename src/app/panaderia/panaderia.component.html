@@ -14,7 +14,7 @@
             <div id="inputs" class="d-flex align-items-end flex-wrap justify-content-between">
                 <div class="input-group-custom">
                     <label for="tiposPanes" class="form-label">Producto</label>
-                    <select class="form-select" id="tiposPanes" (change)="recibirPrecioPan($event)">
+                    <select class="form-select" id="tiposPanes" (change)="recibirPrecioPan($event)" [value]= productoSeleccionado >
                         @for (pan of panes; track $index) {
                          <option [value]="pan.nombre" > {{ pan.nombre }}</option>
                         }
@@ -28,17 +28,17 @@
 
                 <div class="input-group-custom">
                     <label for="cantidad" class="form-label">Cantidad</label>
-                    <input type="number" class="form-control" id="cantidad" min="0">
+                    <input type="number" class="form-control" id="cantidad" min="0"   [value]="cantidadSeleccionada || ''"  (input)="cantidadSeleccionada = $any($event.target).valueAsNumber">
                 </div>
 
                 <div class="input-group-custom">
-                    <button id="añadir" type="button" class="btn btn-outline-dark shadow-lg bg-opacity-25" onclick="mostrarTabla(); agregarPedido(); calcularCompraTotal()">Añadir</button>
+                    <button id="añadir" type="button" class="btn btn-outline-dark shadow-lg bg-opacity-25"  (click)="mostrarTabla(); agregarPedido();">Añadir</button>
                 </div>
             </div>
         </form>
 
         <!--Tabla con productos-->
-        <div class="text-center mx-auto table-responsive" id="tablaC">
+        <div class="text-center mx-auto table-responsive" id="tablaC" [class.visible]="tablaVisible"  >
             <table class="table table-striped mt-5" id="tablaPedidos" >
                 <thead>
                     <tr>
@@ -49,7 +49,17 @@
                         <td></td>
                     </tr>
                 </thead>
-                <tbody></tbody>
+                <tbody>
+                    @for (pedido of pedidos; track $index) {
+                        <tr>
+                            <td>{{pedido.nombre}}</td>
+                            <td>{{pedido.precio}}</td>
+                            <td>{{pedido.cantidad}}</td>
+                            <td>{{(pedido.precio * pedido.cantidad).toFixed(2) + ' €' }}</td>
+                            <td><button type="btn" class="btn btn-danger" (click)="eliminarFila($index)">Eliminar</button></td>
+                        </tr>
+                    }
+                </tbody>
             </table>
         </div>
 
@@ -57,10 +67,10 @@
         <div class="row justify-content-end mt-4">
             <div class="col-auto">
                 <label for="totalCompra" class="form-label fw-bold">Total de la compra:</label>
-                <input type="text" id="totalCompra" class="form-control fw-bold text-end" value="0.00 €" disabled>
+                <input type="text" id="totalCompra" class="form-control fw-bold text-end" value="0.00 €" [value]= 'compraTotal' disabled>
             </div>
         </div>
-        <button class="btn btn-success mt-3" onclick="verFactura()" data-bs-toggle="modal" data-bs-target="#modalFactura">
+        <button class="btn btn-success mt-3" data-bs-toggle="modal" data-bs-target="#modalFactura">
             Ver factura
         </button>
     </div>
@@ -83,11 +93,20 @@
                     <th>Precio Total</th>
                 </tr>
                 </thead>
-                <tbody id="tablaFacturaBody"></tbody>
+                <tbody id="tablaFacturaBody">
+                    @for (pedido of pedidos; track $index) {
+                        <tr>
+                            <td>{{pedido.nombre}}</td>
+                            <td>{{pedido.precio}}</td>
+                            <td>{{pedido.cantidad}}</td>
+                            <td>{{(pedido.precio * pedido.cantidad).toFixed(2) + ' €' }}</td>
+                        </tr>
+                    }
+                </tbody>
             </table>
             <div class="text-end mt-3">
                 <label for="totalFactura" class="form-label fw-bold">Total de la compra:</label>
-                <input type="text" id="totalFactura" class="form-control text-end fw-bold" disabled>
+                <input type="text" id="totalFactura" class="form-control text-end fw-bold" disabled [value]="compraTotal">
             </div>
             </div>
             <div class="modal-footer">
