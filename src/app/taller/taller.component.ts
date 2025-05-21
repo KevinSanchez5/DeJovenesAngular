@@ -28,7 +28,6 @@ export class TallerComponent implements OnInit{
       DocumentoId: ['', [Validators.required, Validaciones.validarNIF_CIF]],
       Telefono: ['', [Validators.required, Validators.pattern(/^[679][0-9]{8}$/)]],
       Email: ['', [Validators.required, Validators.email]], 
-      Captcha:['', [Validators.required]],
       pedidos: this.fb.array([])
     })
   }
@@ -264,5 +263,15 @@ export class TallerComponent implements OnInit{
       contenidoModalElement.innerHTML = contenidoHtml;
     }
   }
+
+  captchaValido: boolean = false;
+
+captchaResolved(response: Event) {
+  if (response) {
+    this.captchaValido = true;
+  } else {
+    this.captchaValido = false;
+  }
+}
 
 }

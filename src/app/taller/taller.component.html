@@ -131,12 +131,10 @@
             <span class="spanError">El email debe tener un formato correcto</span>
         }
         
-        <div class="input-group mt-3">
-            <span id="valorCaptcha" class="input-group-text"></span>
-            <label class="input-group-text" for="Captcha">Captcha</label>
-            <input class="form-control" type="text" formControlName="Captcha" id="Captcha" required >
-        </div>  
-        <span id="spanCaptcha"></span>
+        <div class="g-recaptcha" data-sitekey="6LfRd0MrAAAAAGkEh3V6PxwnZPwbC04DTANdHHWR" (resolved)="captchaResolved($event)"></div>
+                                    
+        <div class="g-recaptcha" data-sitekey="6LfRd0MrAAAAAGkEh3V6PxwnZPwbC04DTANdHHWR" #captchaRef></div>
+
 
 
         <div class="text-center my-4">
