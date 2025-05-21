@@ -22,28 +22,55 @@
         @if (formularioTaller.get('NumeroFactura')?.hasError('required') && formularioTaller.get('NumeroFactura')?.touched){
             <span class="spanError">El número de factura es obligatorio</span>
         }
+        @if (formularioTaller.get('NumeroFactura')?.hasError('pattern') && formularioTaller.get('NumeroFactura')?.dirty){
+            <span class="spanError">El número debe estar entre 1 y 99999</span>
+        }
 
         <div class="input-group mt-3">
             <label for="Fecha" class="input-group-text">Fecha</label>
             <input class="form-control" type="text" formControlName="Fecha" id="Fecha" required placeholder="dd/mm/aaaa">
         </div>
-        <span id="spanFecha"></span>
+        @if (formularioTaller.get('Fecha')?.hasError('required') && formularioTaller.get('Fecha')?.touched){
+            <span class="spanError">La fecha es obligatoria</span>
+        }
+        @if (formularioTaller.get('Fecha')?.hasError('fechaInvalida')&& formularioTaller.get('Fecha')?.dirty) {
+                <span class="spanError">La fecha debe tener un formato de dd/mm/aaaa y válida.</span>
+        }
+        @if (formularioTaller.get('Fecha')?.hasError('fechaFutura')) {
+            <span class="spanError">La fecha no puede ser posterior a hoy</span>
+        }
 
 
         <div class="input-group mt-3">
             <label class="input-group-text" for="NombreCliente">Nombre de Cliente</label>
             <input class="form-control" type="text" formControlName="NombreCliente" id="NombreCliente" required placeholder="Nombre completo">
         </div>
-        <span id="spanNombreCliente"></span>
+        @if (this.formularioTaller.get('NombreCliente')?.hasError('required') && this.formularioTaller.get('NombreCliente')?.touched ) {
+            <span class="spanError">El nombre del cliente no puede quedar vacío</span>
+        }
+        @if (this.formularioTaller.get('NombreCliente')?.hasError('minlength')) {
+            <span class="spanError">El nombre es demasiado corto (mínimo 2 caracteres)</span>
+        }
+        @if (this.formularioTaller.get('NombreCliente')?.hasError('maxlength')) {
+            <span class="spanError">El nombre es demsiado largo (máximo 80 caracteres)</span>
+        }
 
 
         <div class="row mt-3">
             <div class="col-md-6">
                 <div class="input-group">
                 <label class="input-group-text" for="CodigoPostal">Código Postal</label>
-                <input class="form-control" type="number" formControlName="CodigoPostal" id="CodigoPostal" required>
+                <input class="form-control" type="string" formControlName="CodigoPostal" id="CodigoPostal" required maxlength="5">
                 </div>
-                <span id="spanCodigoP"></span>
+                @if (formularioTaller.get('CodigoPostal')?.hasError('required') && formularioTaller.get('CodigoPostal')?.touched) {
+                <span class="spanError">Debe ingresar el código postal</span>
+                }
+                @if (formularioTaller.get('CodigoPostal')?.hasError('codigoPostalInvalido') && formularioTaller.get('CodigoPostal')?.dirty) {
+                <span class="spanError">El código postal es incorrecto, tiene que tener 5 digitos y ser válido</span>
+                }
+                @if (formularioTaller.get('CodigoPostal')?.hasError('formatoInvalido') && formularioTaller.get('CodigoPostal')?.dirty) {
+                <span class="spanError">Formato de código postal inválido</span>
+                }
 
             </div>
             
@@ -58,14 +85,27 @@
             <label class="input-group-text" for="Ciudad">Ciudad</label>
             <input class="form-control" type="text" formControlName="Ciudad" id="Ciudad" required>
         </div>  
-        <span id="spanCiudad"></span>
+        @if (this.formularioTaller.get('Ciudad')?.hasError('required') && this.formularioTaller.get('Ciudad')?.touched ) {
+            <span class="spanError">La ciudad no puede quedar vacía</span>
+        }
+        @if (this.formularioTaller.get('Ciudad')?.hasError('minlength')) {
+            <span class="spanError">La ciudad es demasiado corta (mínimo 2 caracteres)</span>
+        }
+        @if (this.formularioTaller.get('Ciudad')?.hasError('maxlength')) {
+            <span class="spanError">La ciudad es demsiado larga (máximo 80 caracteres)</span>
+        }
 
 
         <div class="input-group mt-3">
             <label class="input-group-text" for="DocumentoId">CIF/NIF</label>
             <input class="form-control" type="text" formControlName="DocumentoId" id="DocumentoId" required placeholder="Número de documento" >
         </div>  
-        <span id="spanDocumentoId"></span>
+         @if (formularioTaller.get('DocumentoId')?.hasError('required') && formularioTaller.get('DocumentoId')?.touched) {
+        <span class="spanError">El CIF/NIF es obligatorio</span>
+        }
+        @if (formularioTaller.get('DocumentoId')?.hasError('nifCifInvalido') && formularioTaller.get('DocumentoId')?.dirty) {
+        <span class="spanError">El formato de CIF/NIF es incorrecto</span>
+        }
 
         
         <div class="input-group mt-3">
@@ -73,13 +113,23 @@
             <input class="form-control" type="text" formControlName="Telefono" id="Telefono" required >
         </div>  
         <span id="spanTelefono"></span>
-
+        @if (formularioTaller.get('Telefono')?.hasError('required') && formularioTaller.get('Telefono')?.touched) {
+            <span class="spanError">El número de teléfono no puede quedar vacío</span>
+        }
+        @if (formularioTaller.get('Telefono')?.hasError('pattern')) {
+            <span class="spanError">El teléfono debe empezar por 6, 7 o 9 y tener 9 dígitos en total</span>
+        }
 
         <div class="input-group mt-3">
             <label class="input-group-text" for="Email">E-mail</label>
             <input class="form-control" type="text" formControlName="Email" id="Email" required >
         </div>  
-        <span id="spanEmail"></span>
+        @if (formularioTaller.get('Email')?.hasError('required') && formularioTaller.get('Email')?.touched) {
+            <span class="spanError">El email no puede quedar vacío</span>
+        }
+        @if (formularioTaller.get('Email')?.hasError('email')) {
+            <span class="spanError">El email debe tener un formato correcto</span>
+        }
         
         <div class="input-group mt-3">
             <span id="valorCaptcha" class="input-group-text"></span>
@@ -97,83 +147,127 @@
         </div>
 
         <br>
-        <button type="button" class="btn btn-success mt-3" >Añadir Producto</button>
+        <button type="button" class="btn btn-success mt-3" (click)="mostrarTabla(); agregarFila();" [disabled]="formularioTaller.invalid">Añadir Producto</button>
 
         <!--Tabla de productos-->
-        <div class=" text-center mx-auto table-responsive" id="divTabla">
-            <table class="table table-striped mt-4" id="tablaProductos" >
-                <thead>
-                    <tr>
-                        <td>Número</td>
-                        <td>Nombre</td>
-                        <td>Descripción</td>
-                        <td>Cantidad</td>
-                        <td>Precio</td>
-                        <td>IVA (%)</td>
-                        <td>Precio sin IVA</td>
-                        <td>Importe IVA</td>
-                        <td>Importe Total</td>
-                        <td></td>
-                    </tr>
-                </thead>
-                <tbody>
-                
-                </tbody>
-            </table>
-        </div>
+         <div class="text-center mx-auto table-responsive" id="divTabla" [class.visible]="tablaVisible"
+        [formArrayName]="'pedidos'">
+        <table class="table table-striped mt-4" id="tablaProductos">
+          <thead>
+            <tr>
+              <td>Número</td>
+              <td>Nombre</td>
+              <td>Cantidad</td>
+              <td>Precio unidad</td>
+              <td>IVA (%)</td>
+              <td>Precio sin IVA</td>
+              <td>Importe IVA</td>
+              <td>Importe Total</td>
+              <td></td>
+            </tr>
+          </thead>
+          <tbody>
+            @for (pedidoGroup of pedidosFormArray.controls; track $index) {
+            <tr [formGroupName]="$index">
+              <td>{{$index + 1}}</td>
+              <td>
+                <input type="text" class="form-control" formControlName="nombre"
+                  (change)="actualizarLineaProducto($index)">
+                @if (pedidoGroup.get('nombre')?.hasError('required') && pedidoGroup.get('nombre')?.touched) {
+                <span class="spanError">Nombre obligatorio</span>
+                }
+              </td>
+              <td>
+                <input type="number" class="form-control" formControlName="cantidad"
+                  (change)="actualizarLineaProducto($index)">
+                @if (pedidoGroup.get('cantidad')?.hasError('required') && pedidoGroup.get('cantidad')?.touched) {
+                <span class="spanError">Cantidad obligatoria</span>
+                }
+                @if (pedidoGroup.get('cantidad')?.hasError('min') && pedidoGroup.get('cantidad')?.touched) {
+                <span class="spanError">Mínimo 1</span>
+                }
+              </td>
+              <td>
+                <input type="number" class="form-control" formControlName="precioPorUnidad"
+                  (change)="actualizarLineaProducto($index)">
+                @if (pedidoGroup.get('precioPorUnidad')?.hasError('required') && pedidoGroup.get('precioPorUnidad')?.touched) {
+                <span class="spanError">Precio obligatorio</span>
+                }
+                @if (pedidoGroup.get('precioPorUnidad')?.hasError('min') && pedidoGroup.get('precioPorUnidad')?.touched) {
+                <span class="spanError">Mínimo 0</span>
+                }
+              </td>
+              <td>
+                <select class="form-select" formControlName="porcentajeIva" (change)="actualizarLineaProducto($index)">
+                  <option [ngValue]="0.21">21%</option>
+                  <option [ngValue]="0.1">10%</option>
+                  <option [ngValue]="0.04">4%</option>
+                </select>
+              </td>
+              <td><input class="form-control" type="text" formControlName="precioSinIva" ></td>
+              <td><input class="form-control" type="text" formControlName="importeIva" ></td>
+              <td><input class="form-control" type="text" formControlName="importeTotal" ></td>
+              <td><button type="button" class="btn btn-danger" (click)="eliminarLinea($index)">Eliminar</button></td>
+            </tr>
+            }
+          </tbody>
+        </table>
+        <button type="button" class="btn btn-primary mt-3" (click)="agregarFila()">Agregar Otra Fila</button>
+      </div>
 
         <!--Calculos de ivas e importes de estos-->
-        <div>
-            <div class="input-group mt-2">
-                <label for="base21" class="input-group-text">Importe base con IVA 21%</label>
-                <input name="base21" id="base21" class="form-control" type="number" disabled>
+         <div>
+        <div class="input-group mt-2">
+          <label for="base21" class="input-group-text">Importe base con IVA 21%</label>
+          <input name="base21" id="base21" class="form-control" type="number" [value]="totalBase21.toFixed(2)"
+            disabled>
 
-                <label for="iva21" class="input-group-text">IVA 21% calculado</label>
-                <input name="iva21" id="iva21"  class="form-control" type="number" disabled>
-            </div>
-
-            <div class="input-group mt-2">
-                <label for="base10" class="input-group-text">Importe base con IVA 10%</label>
-                <input name="base10" id="base10" class="form-control" type="number" disabled>
-
-                <label for="iva10" class="input-group-text">IVA 10% calculado</label>
-                <input name="iva10"  id="iva10" class="form-control" type="number" disabled>
-            </div>
-
-            <div class="input-group mt-2">
-                <label for="base4" class="input-group-text">Importe base con IVA 4% &nbsp;</label>
-                <input name="base4" id="base4" class="form-control" type="number" disabled>
-
-                <label for="iva4" class="input-group-text">IVA 4% calculado &nbsp;</label>
-                <input name="iva4" id="iva4"  class="form-control" type="number" disabled>
-            </div>
-                
-            <div class="input-group mt-3">
-                <span class="input-group-text">Importe Total</span>
-                <input class="form-control" type="number" id="importeTotal" disabled>
-            </div>
-                
+          <label for="iva21" class="input-group-text">IVA 21% calculado</label>
+          <input name="iva21" id="iva21" class="form-control" type="number" [value]="totalIVA21.toFixed(2)" disabled>
         </div>
 
-        <button type="button" class="btn btn-info mt-3" >Generar Factura</button>
-    </form>
-</div>
+        <div class="input-group mt-2">
+          <label for="base10" class="input-group-text">Importe base con IVA 10%</label>
+          <input name="base10" id="base10" class="form-control" type="number" [value]="totalBase10.toFixed(2)"
+            disabled>
 
-<!--Modal-->
-</div>
+          <label for="iva10" class="input-group-text">IVA 10% calculado</label>
+          <input name="iva10" id="iva10" class="form-control" type="number" [value]="totalIVA10.toFixed(2)" disabled>
+        </div>
+
+        <div class="input-group mt-2">
+          <label for="base4" class="input-group-text">Importe base con IVA 4% &nbsp;</label>
+          <input name="base4" id="base4" class="form-control" type="number" [value]="totalBase4.toFixed(2)" disabled>
+
+          <label for="iva4" class="input-group-text">IVA 4% calculado &nbsp;</label>
+          <input name="iva4" id="iva4" class="form-control" type="number" [value]="totalIVA4.toFixed(2)" disabled>
+        </div>
+
+        <div class="input-group mt-3">
+          <span class="input-group-text">Importe Total</span>
+          <input class="form-control" type="number" id="importeTotal" [value]="importeTotalFinal.toFixed(2)" disabled>
+        </div>
+
+      </div>
+
+      <button type="button" class="btn btn-info mt-3" (click)="generarFactura()" [disabled]="formularioTaller.invalid || pedidosFormArray.length === 0 || pedidosFormArray.invalid">Generar Factura</button>
+    </form>
+  </div>
+
+  </div>
 <div class="modal fade" id="modalFactura" tabindex="-1" aria-labelledby="modalFacturaLabel" aria-hidden="true">
-<div class="modal-dialog modal-lg modal-dialog-scrollable">
+  <div class="modal-dialog modal-lg modal-dialog-scrollable">
     <div class="modal-content">
-    <div class="modal-header">
+      <div class="modal-header">
         <h5 class="modal-title" id="modalFacturaLabel">Resumen de la Factura</h5>
         <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Cerrar"></button>
-    </div>
-    <div class="modal-body" id="contenidoModalFactura">
-    </div>
-    <div class="modal-footer">
+      </div>
+      <div class="modal-body" id="contenidoModalFactura">
+        </div>
+      <div class="modal-footer">
         <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cerrar</button>
         <button type="button" class="btn btn-primary">Confirmar</button>
+      </div>
     </div>
-    </div>
-</div>
+  </div>
 </div>

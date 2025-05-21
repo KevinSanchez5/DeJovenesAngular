@@ -1,4 +1,4 @@
-import { AbstractControl, ValidationErrors } from '@angular/forms';
+import { AbstractControl, ValidationErrors, ValidatorFn } from '@angular/forms';
 
 
 
@@ -18,96 +18,23 @@ export class Validaciones {
     51: "Ceuta", 52: "Melilla"
   };
 
-  static validarCodigoP(control: AbstractControl): ValidationErrors | null {
-    const value = control.value;
-
-    if (!value || typeof value !== 'string') return { codigoPostalInvalido: true };
-
-    const codigo = value.trim();
-    if (codigo.length !== 5 || !/^\d{5}$/.test(codigo)) {
-      return { codigoPostalInvalido: true };
-    }
-
-    const provinciaCodigo = parseInt(codigo.substring(0, 2), 10);
-
-    if (provinciaCodigo > 0 && provinciaCodigo <= 52) {
-      const provinciaNombre = this.cp_provincias[provinciaCodigo];
-
-      return null;
-    }
-
-    return { codigoPostalInvalido: true };
-  }
-
-   private static esDniValido(value: string): boolean {
-    const dniRegex = /^[0-9]{8}[A-Z]$/;
-    const letrasDni: string = "TRWAGMYFPDXBNJZSQVHLCKE"; 
-
-    if (!dniRegex.test(value)) return false;
-
-    const numero = parseInt(value.substring(0, 8), 10);
-    const letra = value.charAt(8);
-    const letraCorrecta = letrasDni[numero % 23];
-
-    return letra === letraCorrecta;
-  }
-
-  static validarDni(control: AbstractControl): ValidationErrors | null {
-    return this.esDniValido((control.value || '').toUpperCase())
-      ? null
-      : { dniInvalido: true };
-  }
-
-  private static esCifValido(value: string): boolean {
-    const cif = value.toUpperCase();
-    const cifRegex = /^[ABCDEFGHJKLMNPQRSUVW][0-9]{7}[0-9A-J]$/;
-    if (!cifRegex.test(cif)) return false;
-
-    const letras = 'JABCDEFGHI';
-    const controlDigit = cif[cif.length - 1];
-    const numbers = cif.substring(1, 8);
-    let sumEven = 0;
-    let sumOdd = 0;
-
-    for (let i = 0; i < numbers.length; i++) {
-      const n = parseInt(numbers[i], 10);
-      if ((i + 1) % 2 === 0) {
-        sumEven += n;
-      } else {
-        let double = n * 2;
-        sumOdd += double > 9 ? Math.floor(double / 10) + (double % 10) : double;
+    static validarCodigoP: ValidatorFn = (control: AbstractControl): ValidationErrors | null => {
+      const cp = control.value;
+      if (!cp) {
+        return null;
       }
-    }
 
-    const totalSum = sumEven + sumOdd;
-    const controlDigitCalculated = (10 - (totalSum % 10)) % 10;
-    const expectedLetter = letras[controlDigitCalculated];
+      if (!/^\d{5}$/.test(cp)) {
+        return { formatoInvalido: true };
+      }
+      
+      const provinciaCodigo = parseInt(cp.substring(0, 2), 10);
+      if (!Validaciones.cp_provincias[provinciaCodigo]) {
+        return { codigoPostalInvalido: true };
+      }
 
-    const firstChar = cif[0];
-    if ('ABEH'.includes(firstChar)) {
-      return controlDigit == String(controlDigitCalculated);
-    } else if ('KPQS'.includes(firstChar)) {
-      return controlDigit === expectedLetter;
-    } else {
-      return controlDigit === expectedLetter || controlDigit == String(controlDigitCalculated);
-    }
-  }
-
-  static validarCif(control: AbstractControl): ValidationErrors | null {
-    return this.esCifValido((control.value || '').toUpperCase())
-      ? null
-      : { cifInvalido: true };
-  }
-
-  static validarDniOCif(control: AbstractControl): ValidationErrors | null {
-    const value = (control.value || '').toUpperCase();
-
-    if (this.esDniValido(value) || this.esCifValido(value)) {
       return null;
-    }
-
-    return { documentoInvalido: true };
-  }
+    };
 
   static validarFecha(control: AbstractControl): ValidationErrors | null {
     const valor = control.value;
@@ -140,5 +67,79 @@ export class Validaciones {
     return null; 
   }
 
+  static validarNIF_CIF: ValidatorFn = (control: AbstractControl): ValidationErrors | null => {
+    const value = control.value ? control.value.toUpperCase() : '';
+    if (!value) {
+      return null; 
+    }
+
+    const validarNIF = (nif: string): boolean => {
+      const letters = 'TRWAGMYFPDXBNJZSQVHLCKE';
+      let dni = nif;
+
+      if (nif.length !== 9) return false;
+
+      if (nif.startsWith('X')) dni = '0' + nif.substring(1);
+      if (nif.startsWith('Y')) dni = '1' + nif.substring(1);
+      if (nif.startsWith('Z')) dni = '2' + nif.substring(1);
+
+      const num = parseInt(dni.substring(0, 8), 10);
+      const letter = dni.substring(8, 9);
+
+      if (isNaN(num)) return false; 
+
+      return letters.charAt(num % 23) === letter;
+    };
+
+    const validarCIF = (cif: string): boolean => {
+      if (cif.length !== 9) return false;
+
+      const controlLetter = cif.charAt(8);
+      const firstLetter = cif.charAt(0);
+      const numericPart = cif.substring(1, 8);
+
+      if (!/^[0-9]{7}$/.test(numericPart)) return false;
+
+      let sum = 0;
+      for (let i = 0; i < 7; i++) {
+        let digit = parseInt(numericPart.charAt(i), 10);
+        if (i % 2 === 0) { 
+          digit *= 2;
+          sum += digit < 10 ? digit : (Math.floor(digit / 10) + (digit % 10));
+        } else { 
+          sum += digit;
+        }
+      }
+
+      const unitDigit = sum % 10;
+      const controlDigit = unitDigit === 0 ? 0 : 10 - unitDigit;
+
+      const controlLetters = 'JABCDEFGHI';
+
+      
+      switch (firstLetter) {
+        case 'A': case 'B': case 'E': case 'H':
+          return (controlLetter === String(controlDigit) || controlLetter === controlLetters.charAt(controlDigit));
+        case 'C': case 'K': case 'L': case 'M': 
+          return controlLetter === controlLetters.charAt(controlDigit);
+        case 'P': case 'Q': case 'S': 
+          return controlLetter === controlLetters.charAt(controlDigit);
+        case 'D': case 'F': case 'G': case 'J': case 'N': case 'R': case 'V': case 'W': // Persona jurídica (solo número)
+          return controlLetter === String(controlDigit);
+        default:
+          return false;
+      }
+    };
+
+    if (validarNIF(value)) {
+      return null;
+    }
+
+    if (validarCIF(value)) {
+      return null;
+    }
+
+    return { nifCifInvalido: true };
+  };
 }
 
