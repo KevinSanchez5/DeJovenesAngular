@@ -1,0 +1,91 @@
+body {
+    background: linear-gradient(135deg, #d4d4d4, #f0f0f0);
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    color: #212529;
+    margin: 0;
+    padding: 2em 0;
+}
+h1 {
+    font-family: 'Roboto', sans-serif; 
+    font-size: 3rem; 
+    color: #444; 
+    letter-spacing: 1.5px; 
+    font-weight: bold; 
+    text-transform: uppercase; 
+    margin-top: 20px;
+    text-align: center;
+}
+
+#todo {
+    width: 80%;
+    margin: auto;
+    background-color: #f8f9fa;
+    border: 1px solid #dee2e6;
+    border-radius: 10px;
+    box-shadow: 0 0 12px rgba(100, 100, 100, 0.1);
+    padding: 2rem;
+}
+
+#datosCliente {
+    padding: 1.5rem;
+    background-color: #f5fffc9b;
+    border: 1px solid #dee2e6;
+    border-radius: 0.5rem;
+    margin-bottom: 2rem;
+}
+
+.spanCorrecto {
+    color: #198754; 
+    font-weight: 500;
+}
+
+.spanErroneo {
+    color: #dc3545; 
+    font-weight: 500;
+}
+
+#divTabla {
+    visibility: hidden;
+    margin-top: 2rem;
+}
+
+table {
+    margin-top: 1rem;
+}
+
+button {
+    font-weight: 500;
+    margin: 0.3rem;
+    transition: transform 0.2s ease-in-out;
+}
+
+button:hover {
+    transform: scale(1.03);
+}
+
+.boton-eliminar {
+    background-color: #dc3545;
+    color: white;
+}
+
+.boton-eliminar:hover {
+    background-color: #bb2d3b;
+}
+
+.boton-anadir {
+    background-color: #198754;
+    color: white;
+}
+
+.boton-anadir:hover {
+    background-color: #157347;
+}
+
+.boton-generar {
+    background-color: #0d6efd;
+    color: white;
+}
+
+.boton-generar:hover {
+    background-color: #0b5ed7;
+}

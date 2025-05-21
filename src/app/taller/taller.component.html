@@ -1,0 +1,179 @@
+<div id="todo" class="container-fluid mt-3 mb-3">
+<!--Titulo-->
+<header class="page-header">
+    <div>
+        <img src="media/mano-de-obra-taller.jpg" 
+        alt="Imagen de taller mecánico"
+        class="img-fluid rounded shadow"
+        style="max-height: 250px; width: 100%; object-fit: cover;">
+        <h1>Talleres Vives</h1>
+    </div>
+</header>
+
+<!--Primer formulario-->
+<div class="form-rounded-3" id="datosCliente">
+    <h4>Datos del cliente</h4>
+
+    <form [formGroup] ="formularioTaller" >
+        <div class="input-group mt-3">
+            <label for="NumeroFactura" class="input-group-text">Numero Factura</label>
+            <input class="form-control" type="text" formControlName="NumeroFactura" id="NumeroFactura" required >
+        </div>
+        @if (formularioTaller.get('NumeroFactura')?.hasError('required') && formularioTaller.get('NumeroFactura')?.touched){
+            <span class="spanError">El número de factura es obligatorio</span>
+        }
+
+        <div class="input-group mt-3">
+            <label for="Fecha" class="input-group-text">Fecha</label>
+            <input class="form-control" type="text" formControlName="Fecha" id="Fecha" required placeholder="dd/mm/aaaa">
+        </div>
+        <span id="spanFecha"></span>
+
+
+        <div class="input-group mt-3">
+            <label class="input-group-text" for="NombreCliente">Nombre de Cliente</label>
+            <input class="form-control" type="text" formControlName="NombreCliente" id="NombreCliente" required placeholder="Nombre completo">
+        </div>
+        <span id="spanNombreCliente"></span>
+
+
+        <div class="row mt-3">
+            <div class="col-md-6">
+                <div class="input-group">
+                <label class="input-group-text" for="CodigoPostal">Código Postal</label>
+                <input class="form-control" type="number" formControlName="CodigoPostal" id="CodigoPostal" required>
+                </div>
+                <span id="spanCodigoP"></span>
+
+            </div>
+            
+            <div class="col-md-6">
+                <div class="input-group">
+                <label class="input-group-text" for="Provincia">Provincia</label>
+                <input class="form-control" type="text" formControlName="Provincia" id="Provincia" >
+                </div>
+            </div>
+            </div>
+        <div class="input-group mt-3">
+            <label class="input-group-text" for="Ciudad">Ciudad</label>
+            <input class="form-control" type="text" formControlName="Ciudad" id="Ciudad" required>
+        </div>  
+        <span id="spanCiudad"></span>
+
+
+        <div class="input-group mt-3">
+            <label class="input-group-text" for="DocumentoId">CIF/NIF</label>
+            <input class="form-control" type="text" formControlName="DocumentoId" id="DocumentoId" required placeholder="Número de documento" >
+        </div>  
+        <span id="spanDocumentoId"></span>
+
+        
+        <div class="input-group mt-3">
+            <label class="input-group-text" for="Telefono">Teléfono de contacto</label>
+            <input class="form-control" type="text" formControlName="Telefono" id="Telefono" required >
+        </div>  
+        <span id="spanTelefono"></span>
+
+
+        <div class="input-group mt-3">
+            <label class="input-group-text" for="Email">E-mail</label>
+            <input class="form-control" type="text" formControlName="Email" id="Email" required >
+        </div>  
+        <span id="spanEmail"></span>
+        
+        <div class="input-group mt-3">
+            <span id="valorCaptcha" class="input-group-text"></span>
+            <label class="input-group-text" for="Captcha">Captcha</label>
+            <input class="form-control" type="text" formControlName="Captcha" id="Captcha" required >
+        </div>  
+        <span id="spanCaptcha"></span>
+
+
+        <div class="text-center my-4">
+            <img src="media/taller.jpg"
+                    alt="Separador automotriz"
+                    class="img-fluid rounded shadow"
+                    style="max-height: 100px; width: 100%; object-fit: cover;">
+        </div>
+
+        <br>
+        <button type="button" class="btn btn-success mt-3" >Añadir Producto</button>
+
+        <!--Tabla de productos-->
+        <div class=" text-center mx-auto table-responsive" id="divTabla">
+            <table class="table table-striped mt-4" id="tablaProductos" >
+                <thead>
+                    <tr>
+                        <td>Número</td>
+                        <td>Nombre</td>
+                        <td>Descripción</td>
+                        <td>Cantidad</td>
+                        <td>Precio</td>
+                        <td>IVA (%)</td>
+                        <td>Precio sin IVA</td>
+                        <td>Importe IVA</td>
+                        <td>Importe Total</td>
+                        <td></td>
+                    </tr>
+                </thead>
+                <tbody>
+                
+                </tbody>
+            </table>
+        </div>
+
+        <!--Calculos de ivas e importes de estos-->
+        <div>
+            <div class="input-group mt-2">
+                <label for="base21" class="input-group-text">Importe base con IVA 21%</label>
+                <input name="base21" id="base21" class="form-control" type="number" disabled>
+
+                <label for="iva21" class="input-group-text">IVA 21% calculado</label>
+                <input name="iva21" id="iva21"  class="form-control" type="number" disabled>
+            </div>
+
+            <div class="input-group mt-2">
+                <label for="base10" class="input-group-text">Importe base con IVA 10%</label>
+                <input name="base10" id="base10" class="form-control" type="number" disabled>
+
+                <label for="iva10" class="input-group-text">IVA 10% calculado</label>
+                <input name="iva10"  id="iva10" class="form-control" type="number" disabled>
+            </div>
+
+            <div class="input-group mt-2">
+                <label for="base4" class="input-group-text">Importe base con IVA 4% &nbsp;</label>
+                <input name="base4" id="base4" class="form-control" type="number" disabled>
+
+                <label for="iva4" class="input-group-text">IVA 4% calculado &nbsp;</label>
+                <input name="iva4" id="iva4"  class="form-control" type="number" disabled>
+            </div>
+                
+            <div class="input-group mt-3">
+                <span class="input-group-text">Importe Total</span>
+                <input class="form-control" type="number" id="importeTotal" disabled>
+            </div>
+                
+        </div>
+
+        <button type="button" class="btn btn-info mt-3" >Generar Factura</button>
+    </form>
+</div>
+
+<!--Modal-->
+</div>
+<div class="modal fade" id="modalFactura" tabindex="-1" aria-labelledby="modalFacturaLabel" aria-hidden="true">
+<div class="modal-dialog modal-lg modal-dialog-scrollable">
+    <div class="modal-content">
+    <div class="modal-header">
+        <h5 class="modal-title" id="modalFacturaLabel">Resumen de la Factura</h5>
+        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Cerrar"></button>
+    </div>
+    <div class="modal-body" id="contenidoModalFactura">
+    </div>
+    <div class="modal-footer">
+        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cerrar</button>
+        <button type="button" class="btn btn-primary">Confirmar</button>
+    </div>
+    </div>
+</div>
+</div>
